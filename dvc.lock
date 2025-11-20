@@ -1,0 +1,65 @@
+schema: '2.0'
+stages:
+  download_data:
+    cmd: python .\src\data\data_download.py
+    deps:
+    - path: .\src\data\data_download.py
+      hash: md5
+      md5: 5ed402603d1e34391caf753ee6527457
+      size: 918
+    outs:
+    - path: .\data\initial_data\initial_data.csv
+      hash: md5
+      md5: ed85bbc347b3746b553720ba54d6019c
+      size: 93094
+    - path: .\data\initial_data\target.csv
+      hash: md5
+      md5: 8dd4a468d94094f76af83d91a64a900e
+      size: 2955
+  prepocess_data:
+    cmd: python .\src\data\data_prepare.py
+    deps:
+    - path: .\data\initial_data\initial_data.csv
+      hash: md5
+      md5: ed85bbc347b3746b553720ba54d6019c
+      size: 93094
+    - path: .\src\data\data_prepare.py
+      hash: md5
+      md5: 571ae95deb2eef8604c627352e6cb043
+      size: 1565
+    outs:
+    - path: .\data\prepared_data\prepared_data.csv
+      hash: md5
+      md5: e6c4cfa19d1d976e98243f6984964cac
+      size: 87395
+  training:
+    cmd: python .\src\train\training.py --config .\configs\params.yaml
+    deps:
+    - path: .\data\initial_data\target.csv
+      hash: md5
+      md5: 8dd4a468d94094f76af83d91a64a900e
+      size: 2955
+    - path: .\data\prepared_data\prepared_data.csv
+      hash: md5
+      md5: e6c4cfa19d1d976e98243f6984964cac
+      size: 87395
+    - path: .\src\train\training.py
+      hash: md5
+      md5: c1349fc9eddb0c0d8f07dcac750c04f5
+      size: 2695
+    params:
+      configs/params.yaml:
+        prepare.random_state: 42
+        prepare.test_size: 0.7
+        train.seed: 42
+        train.test_size: 0.7
+        train.val_size: 0.7
+    outs:
+    - path: .\metrics\metrics.json
+      hash: md5
+      md5: ee8fbfdb84dc0ab5a8b7408af5e94077
+      size: 118
+    - path: .\models\linear_model.pkl
+      hash: md5
+      md5: 056f36e34d8525bb4c0cdb14a3d60e08
+      size: 746
