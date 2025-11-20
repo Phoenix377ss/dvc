@@ -45,6 +45,8 @@ if __name__ == "__main__":
     # 1) Читаем YAML
     with open(config_path, "r") as f:
         params = yaml.safe_load(f)["train"]
+    
+    print(f"Params in this set up are {params}")
 
     SEED = params["seed"]
     VAL_SIZE = params["val_size"]

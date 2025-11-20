@@ -14,20 +14,19 @@ stages:
     outs:
     - .\data\prepared_data\prepared_data.csv
   training:
-    cmd: python .\src\train\training.py --config .\configs\params.yaml
+    cmd: python .\src\train\training.py --config params.yaml
     deps:
     - .\data\initial_data\target.csv
     - .\data\prepared_data\prepared_data.csv
     - .\src\train\training.py
     params:
-      - configs/params.yaml:
-        - prepare.random_state
-        - prepare.test_size
-        - train.seed
-        - train.test_size
-        - train.val_size
+    - prepare.random_state
+    - prepare.test_size
+    - train.seed
+    - train.test_size
+    - train.val_size
     outs:
     - .\models\linear_model.pkl
     metrics:
-    - .\metrics\metrics.json:
+    - metrics\metrics.json:
         cache: false

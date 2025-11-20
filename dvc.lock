@@ -33,7 +33,7 @@ stages:
       md5: e6c4cfa19d1d976e98243f6984964cac
       size: 87395
   training:
-    cmd: python .\src\train\training.py --config .\configs\params.yaml
+    cmd: python .\src\train\training.py --config params.yaml
     deps:
     - path: .\data\initial_data\target.csv
       hash: md5
@@ -45,21 +45,21 @@ stages:
       size: 87395
     - path: .\src\train\training.py
       hash: md5
-      md5: c1349fc9eddb0c0d8f07dcac750c04f5
-      size: 2695
+      md5: 75705611d0241c8d7c4369c8caf9b26d
+      size: 2751
     params:
-      configs/params.yaml:
+      params.yaml:
         prepare.random_state: 42
         prepare.test_size: 0.7
-        train.seed: 42
+        train.seed: 123
         train.test_size: 0.7
-        train.val_size: 0.7
+        train.val_size: 0.2
     outs:
-    - path: .\metrics\metrics.json
-      hash: md5
-      md5: ee8fbfdb84dc0ab5a8b7408af5e94077
-      size: 118
     - path: .\models\linear_model.pkl
       hash: md5
-      md5: 056f36e34d8525bb4c0cdb14a3d60e08
+      md5: 62abc5e058e1d30a5fc0026963c08d0a
       size: 746
+    - path: metrics\metrics.json
+      hash: md5
+      md5: fb3b8b9dea9bb80a3e8bbe7f60f0c2fb
+      size: 119
