@@ -35,6 +35,10 @@ stages:
   training:
     cmd: python .\src\train\training.py --config params.yaml
     deps:
+    - path: .\configs\best_params.json
+      hash: md5
+      md5: eb0857094119ff3ee1a14e850f90f5c8
+      size: 257
     - path: .\data\initial_data\target.csv
       hash: md5
       md5: 8dd4a468d94094f76af83d91a64a900e
@@ -45,21 +49,46 @@ stages:
       size: 87395
     - path: .\src\train\training.py
       hash: md5
-      md5: 75705611d0241c8d7c4369c8caf9b26d
-      size: 2751
+      md5: 0b0000479bd925edd6c8b55b47c5bdc5
+      size: 4255
     params:
       params.yaml:
         prepare.random_state: 42
         prepare.test_size: 0.7
-        train.seed: 123
+        train.seed: 7
         train.test_size: 0.7
-        train.val_size: 0.2
+        train.val_size: 0.1
     outs:
-    - path: .\models\linear_model.pkl
+    - path: .\models\best_model.pkl
       hash: md5
-      md5: 62abc5e058e1d30a5fc0026963c08d0a
-      size: 746
+      md5: 02103d4ab88b3b7adabe464d6a68e0ea
+      size: 312047
     - path: metrics\metrics.json
       hash: md5
-      md5: fb3b8b9dea9bb80a3e8bbe7f60f0c2fb
+      md5: f8a75fa185dee06c033e0fc01c7c2368
       size: 119
+  tuning:
+    cmd: python .\src\train\tuning.py --config params.yaml
+    deps:
+    - path: .\data\initial_data\target.csv
+      hash: md5
+      md5: 8dd4a468d94094f76af83d91a64a900e
+      size: 2955
+    - path: .\data\prepared_data\prepared_data.csv
+      hash: md5
+      md5: e6c4cfa19d1d976e98243f6984964cac
+      size: 87395
+    - path: .\src\train\tuning.py
+      hash: md5
+      md5: 6a1fa0db4bb5ccab48bfa6d6f892e6a6
+      size: 4656
+    params:
+      params.yaml:
+        tuning.n_trials: 20
+        tuning.seed: 7
+        tuning.val_size: 0.2
+    outs:
+    - path: .\configs\best_params.json
+      hash: md5
+      md5: eb0857094119ff3ee1a14e850f90f5c8
+      size: 257

@@ -1,4 +1,6 @@
 stages:
+  
+  
   download_data:
     cmd: python .\src\data\data_download.py
     deps:
@@ -6,6 +8,8 @@ stages:
     outs:
     - .\data\initial_data\initial_data.csv
     - .\data\initial_data\target.csv
+  
+  
   prepocess_data:
     cmd: python .\src\data\data_prepare.py
     deps:
@@ -13,11 +17,28 @@ stages:
     - .\src\data\data_prepare.py
     outs:
     - .\data\prepared_data\prepared_data.csv
+  
+  
+  tuning:
+    cmd: python .\src\train\tuning.py --config params.yaml
+    deps:
+    - .\data\initial_data\target.csv
+    - .\data\prepared_data\prepared_data.csv
+    - .\src\train\tuning.py
+    params:
+    - tuning.n_trials
+    - tuning.seed
+    - tuning.val_size
+    outs:
+    - .\configs\best_params.json
+  
+  
   training:
     cmd: python .\src\train\training.py --config params.yaml
     deps:
     - .\data\initial_data\target.csv
     - .\data\prepared_data\prepared_data.csv
+    - .\configs\best_params.json
     - .\src\train\training.py
     params:
     - prepare.random_state
@@ -26,7 +47,7 @@ stages:
     - train.test_size
     - train.val_size
     outs:
-    - .\models\linear_model.pkl
+    - .\models\best_model.pkl
     metrics:
     - metrics\metrics.json:
         cache: false

@@ -1,6 +1,13 @@
-train:
-  seed: 123
+tuning:
+  n_trials: 20
+  seed: 7
   val_size: 0.2
+
+
+
+train:
+  seed: 7
+  val_size: 0.1
   test_size: 0.7
 
 prepare:
