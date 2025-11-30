@@ -14,8 +14,7 @@ def fillna(dataset: pd.DataFrame) -> pd.DataFrame:
             prepare_dataset[column] = prepare_dataset[column] - 8
             prepare_dataset[column] = prepare_dataset[column] - 71
             prepare_dataset[column] = prepare_dataset[column] - 22
-            prepare_dataset[column] = prepare_dataset[column] - 22
-            prepare_dataset[column] = prepare_dataset[column] - 222
+            prepare_dataset[column] = prepare_dataset[column] - 2
     
     return prepare_dataset
 
